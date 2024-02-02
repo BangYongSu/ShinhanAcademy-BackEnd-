@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<th:block layout:fragment="style1">
+	<style>
+.table12 {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	    align-items: center;
+}
+
+table {
+	width: 1200px;
+}
+
+tr {
+	text-align: center;
+	color: darkmagenta;
+}
+
+th {
+	background-color: bisque;
+}
+
+td:hover {
+	background-color: beige;
+}
+
+table, th, tr, td, hd {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.btn-go {
+	margin-left: 201px;
+	margin-bottom: 5px;
+}
+</style>
+</th:block>
+</head>
+<body>
+	<div Class="panel panel-default" layout:fragment="content">
+		<div class="btn-go">
+			<button class="btn btn-success" onclick="location.href='insert.do'">추가하기</button>
+		</div>
+		<div class="table12">
+
+			<div class="pull-left">
+				<select id="searchType">
+					<option>전체</option>
+					<option value="title" th:selected="${pageVO.type=='title'}">제목</option>
+					<option value="content" th:selected="${pageVO.type=='content'}">내용</option>
+					<option value="writer" th:selected="${pageVO.type=='writer'}">작성자</option>
+				</select> <input type="text" id="searchKeyword" th:value="${pageVO.keyword}">
+				<button id="searchBtn">조건검색</button>
+				
+			</div>
+
+			<p>[[${resultMessage}]]</p>
+
+			<table>
+				<tr>
+					<th>bno</th>
+					<th>title</th>
+					<th>writer</th>
+					<th>content</th>
+					<th>regdate</th>
+					<th>updatedate</th>
+					<th>댓글수</th>
+					<th>삭제</th>
+				</tr>
+				<tr th:each="board:${blist.result.content}">
+					<td><a th:href="@{detail.do(bno=${board.bno}, page=${pageVO.page}, size=${pageVO.size}, type=${pageVO.type}, keyword=${pageVO.keyword})}">[[${board.bno}]]</a>
+						<span class=" badge bg-primary">[[${board.replies.size()}]]
+					</span></td>
+					<td th:text="${board.title}"></td>
+					<td th:text="${board.writer}"></td>
+					<td th:text="${board.content}"></td>
+					<td th:text="${board.regdate}"></td>
+					<td th:text="${board.updatedate}"></td>
+					<td class="badge bg-success">[[${#lists.size(board.replies)}]]</td>
+					<td><button class="btn btn-success"
+							th:onclick="call([[${board.bno}]])">삭제하기</button></td>
+				</tr>
+			</table>
+			<nav>
+   <div>
+     <ul class="pagination">
+       <li class="page-item" th:if="${blist.prevPage}">
+         <a th:href="${blist.prevPage.pageNumber}+1">PREV [[${blist.prevPage.pageNumber}+1]]</a>
+       </li>
+        <li class="page-item" th:classappend="${p.pageNumber==blist.currentPageNum-1}?active:''" 
+                             th:each="p:${blist.pageList}">
+         <a th:href="${p.pageNumber}+1">[[${p.pageNumber}+1]]</a>
+       </li>  
+       <li class="page-item" th:if="${blist.nextPage}">
+         <a th:href="${blist.nextPage.pageNumber}+1">NEXT [[${blist.nextPage.pageNumber}+1]]</a>
+       </li>   
+     </ul>
+   </div>
+  </nav>
+  
+  <form id="f1" th:action="@{/webboard/list.do}" method="get">
+    <input type="hidden" name="page" th:value="${blist.currentPageNum}">
+    <input type="hidden" name="size" th:value="${blist.currentPage.pageSize}">
+    <input type="hidden" name="type" th:value="${pageVO.type}">
+    <input type="hidden" name="keyword" th:value="${pageVO.keyword}">
+</form>
+  
+		</div>
+	</div>
+	<th:block layout:fragment="script1">
+		<script th:inline="javascript">
+		
+		var message=/*[[${message}]]*/null;
+		if(message!=null){
+		alert(message);
+		}
+            function call(bno) {
+                location.href="delete.do?bno=" + bno;
+            }
+            
+
+var formObj = $("#f1");  //아이디가 f1인 폼을 찾음
+$(".pagination a").click(function(e){  //pagination에 a라는 애를 누르면
+e.preventDefault();   //link는 하지말고
+formObj.find("[name='page']").val($(this).attr('href')); //a안에 들어있는것중에 href를 읽는다.
+formObj.attr("action", "/webboard/list.do");
+formObj.submit();
+});
+
+$("#searchBtn").click(function(){
+var typeStr = $("#searchType").find(":selected").val();
+var keywordStr = $("#searchKeyword").val();
+formObj.find("[name='type']").val(typeStr);
+formObj.find("[name='keyword']").val(keywordStr);
+formObj.find("[name='page']").val(1);
+formObj.submit();
+});
+$(".boardLink").click(function(e){
+e.preventDefault();
+var boardNo = $(this).attr("href");
+alert(boardNo);
+formObj.attr("action", "/boards/view");  
+formObj.append("<input type='hidden' name='bno' value='"+boardNo+"'>");
+formObj.submit();
+});
+
+  
+        </script>
+	</th:block>
+</body>
+</html>

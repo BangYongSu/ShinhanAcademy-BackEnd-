@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+ 
+
+<title>Insert title here</title>
+</head>
+<body>
+<div th:fragment="header2">
+	   <h1>header의 2번째 조각이다.</h1>
+	   <p>[[${session.user!=null?session.user.mname+'님 환영':'mname이 없습니다.'}]]</p>
+</div>
+<div th:fragment="header3">
+	   <h1>header의 3번째 조각이다.</h1>
+</div>
+</body>
+</html>

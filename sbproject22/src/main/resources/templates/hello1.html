@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>타임리프연습</h1>
+	<h2 th:text="${greeting}">아무거나</h2>
+	<hr>
+	<p th:text="${board.title}"></p>
+	<p th:text="${board}"></p>
+	<hr>
+	<p th:text="${'<h1>'+board.writer+'</h1>'}">문자로 출력</p>
+	<p th:utext="${'<h1>'+board.writer+'</h1>'}">HTML tag동작</p>
+
+</body>
+</html>

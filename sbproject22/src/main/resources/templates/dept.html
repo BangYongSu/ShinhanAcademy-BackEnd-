@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout1}">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<th:block layout:fragment="style1">
+<style>
+
+</style>
+</th:block>
+</head>
+<body>
+<div class="panel panel-default" layout:fragment="content">
+	<table>
+	<tr th:each="dept:${dlist}">
+	<td th:text="${dept.departmentId}"></td>
+	<td th:text="${dept.departmentName}"></td>
+	<td th:text="${dept.locationId}"></td>
+	<td th:text="${dept.managerId}"></td>
+	</tr>
+	</table>
+		<table>
+	<tr th:each="emp:${elist}">
+	<td th:text="${emp.employeeId}"></td>
+	<td th:text="${emp.firstName}"></td>
+	<td th:text="${emp.salary}"></td>
+	</tr>
+	
+	</table>
+	</div>
+	<th:block layout:fragment="script1">
+	<script>
+	console.log("-------------------");
+	</script>
+</th:block>
+</body>
+</html>

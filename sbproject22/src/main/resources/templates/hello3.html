@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	파라메터 : <p th:text="${myname}"/>
+	 <p th:text="|1.파라메터 : ${myname}|"/>
+	 <p th:text="|2.날짜format : ${#dates.format(now,'yyyy-MM-dd hh:mm:ss')}|"/>
+	 <p th:text="|3.날짜 : ${now}|"/>
+	 <p th:text="|4.숫자 : ${price}|"/>
+	 <p th:text="|5.숫자(정수) : ${#numbers.formatInteger(price,3,'COMMA')}|"/>
+	 <p th:text="|6.숫자(정수,소수) : ${#numbers.formatDecimal(price,20,3,'POINT')}|"/>
+	<p th:text="|7.문자 : ${title}|"/>
+	<!-- title의 s를 S로 바꿔라 -->
+	<p th:text="|8.문자 : ${#strings.replace(title,'s','<b>S</b>')}|"/>
+	<p th:utext="|9.문자 : ${#strings.replace(title,'s','<b>S</b>')}|"/>
+	
+	<p th:text="|10.문자 : ${#strings.toUpperCase(title)}|"/>
+	세션아이디 : <p th:text="${myname2}"/>
+	<ul>
+	<li th:each="item:${#strings.listSplit(title,' ')}">단어:[[${item}]]</li>
+	</ul>
+	<ul>
+	<li th:each="item:${options}">항목:[[${item}]]</li>
+	</ul>
+	<hr>
+	<h1>path 연습하기</h1>
+	<ul>
+	<li><a href="http://localhost:7777/app/webboard/list.do">freeboard가기</a></li>
+	<li><a th:href="@{http://localhost:7777/app/webboard/list.do}">freeboard가기</a></li>
+	<li><a th:href="@{webboard/list.do}">freeboard가기3상대</a></li>
+	<li><a th:href="@{/webboard/list.do}">freeboard가기4절대</a></li>
+	<li><a th:href="@{/webboard/list.do(myname=jin)}">freeboard가기5(param)</a></li>
+	<li><a th:href="@{http://localhost:7777/app/webboard/list.do}">freeboard가기6(contextpath가 다른경우))</a></li>
+	</ul>
+	<script th:inline="javascript">
+	var arr = /*[[${options}]]*/[];
+	var arr2= eval('[[${options}]]');
+	var str = "a=10;b=20;c=a+b;console.log(c)"; 
+	console.log(arr);
+	console.log(arr2);
+	console.log(c);
+	
+	
+	</script>
+</body>
+</html>

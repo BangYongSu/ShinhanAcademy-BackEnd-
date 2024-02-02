@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	login
+	<div class="panel panel-default" layout:fragment="content">
+		<div class="panel-body">
+			<h2>CUSTOM LOGIN PAGE</h2>
+
+			<form method="post">
+				<p>
+					<label for="username">Username</label> <input type="text"
+						id="username" name="username" value="zzilre1" /> <!-- username이여야만함 -->
+					<!-- 이름변경불가  : username -->
+				</p>
+				<p>
+					<label for="password">Password</label> <input type="password"
+						id="password" name="password" value="1234" />
+					<!-- 이름변경불가  : password -->
+				</p>
+				
+				
+				<button type="submit" class="btn btn-primary">Log in</button>
+
+			</form>
+			 
+		</div>
+	</div>
+
+    <img src="upload/images/1.png">
+</body>
+</html>

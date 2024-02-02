@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.table12 {
+	display: flex;
+	justify-content: center;
+}
+
+table{
+
+width : 1200px;
+}
+  tr{
+   color: darkmagenta;
+  text-align:center;
+}
+th{
+background-color: bisque;
+}
+td:hover{
+background-color: beige;
+}
+table, th, tr, td, hd {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+.hotpink {background-color : darkseagreen;}
+.skyblue {background-color : skyblue;}
+.first { color:red;}
+.last {color:blue;}
+</style>
+</head>
+<body>
+	<h1>FreeBoard목록</h1>
+	<h2 th:text="${@environment.getProperty('app.title')}"></h2>
+	<h2 th:text="${@environment.getProperty('server.port')}"></h2>
+	<p>Encoding[[${#response.characterEncoding}]]</p>
+	<div class="table12">
+	<!-- 지역변수선언 -->
+		<table th:with="target=${loginUser},friend=${myFriend}">
+			<tr>
+				<th>index-count-size</th>
+				<th>first,last,odd,even</th>
+				<th>게시번호</th>
+				<th>제목</th>
+				<th>내용</th>
+				<th>작성자</th>
+				<th>등록일</th>
+				<th>수정일</th>
+				<th> 어렵누 </th>
+				<th>댓글수</th>
+			
+			</tr>
+			<tr th:each="board,status:${blist}" th:class="${status.even}?'hotpink':'skyblue'">
+		<td th:class="${status.first}?'first':''"
+			th:classappend="${status.last}?'last':''" 
+		th:text="${status.index + '--' + status.count + '--' + status.size }"></td>
+		<td th:text="|${status.first}--${status.last}--${status.even}--${status.odd}|"></td>
+				<td th:text="${board.bno}"></td>
+				<td th:text="${board.title}"></td>
+				<td> 
+				[[${board.bno}]]
+				[[${board.content}]]</td>
+				<td th:text="${board.writer==target?'타겟찾음'+board.writer:board.writer}"></td>
+				<td th:text="${#dates.format(board.regdate,'yyyy-mm-dd')}"></td>
+				<td th:text="${board.updatedate}"></td>
+				<td th:if=
+				"${board.writer}">
+				<p><a href="" th:if="${board.writer==friend}">수정</a></p>
+				<p><a th:unless="${board.writer==friend}">View</a></p>
+				</td>
+				<td th:text="${board.replies.size}"></td>
+				<td th:text="${#list.size(board.replies)}"/>
+			</tr>
+
+		</table>
+	</div>
+	<script th:inline="javascript">
+	var boardlist = [[${blist}]];
+	boardlist.forEach(item=>{
+	console.log(item);
+	});
+	</script>
+</body>
+</html>
